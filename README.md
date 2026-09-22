@@ -1,1 +1,1 @@
-https://github.com/TRECKA02/mesto-ad.git
+https://github.com/TRECKA02/mesto-ad/
