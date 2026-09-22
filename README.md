@@ -1,1 +1,1 @@
-https://github.com/TRECKA02/mesto-production/
+https://github.com/TRECKA02/mesto-ad/
