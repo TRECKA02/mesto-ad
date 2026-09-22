@@ -6,6 +6,10 @@ const getTemplate = () => {
     .cloneNode(true);
 };
 
+export const removeCardElement = (cardElement) => {
+  cardElement.remove();
+};
+
 // Функция для обновления отображения лайков (класса и счётчика)
 export const updateLikeStatus = (likeButton, likeCountElement, likesArray, userId) => {
   // Обновляем количество лайков на основе длины массива с сервера
@@ -19,6 +23,10 @@ export const updateLikeStatus = (likeButton, likeCountElement, likesArray, userI
   } else {
     likeButton.classList.remove("card__like-button_is-active");
   }
+};
+
+export const getLikeStatus = (likeButton) => {
+  return likeButton.classList.contains("card__like-button_is-active");
 };
 
 // Функция создания карточки

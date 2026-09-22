@@ -6,7 +6,7 @@
   Из index.js не допускается что то экспортировать
 */
 
-import { createCardElement, updateLikeStatus } from "./components/card.js";
+import { createCardElement, updateLikeStatus, getLikeStatus, removeCardElement } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import { getUserInfo, getCardList, setUserInfo, updateAvatar, addNewCard, deleteCardFromServer, changeLikeCardStatus } from "./components/api.js";
@@ -149,24 +149,25 @@ const renderLoading = (isLoading, buttonElement, loadingText = "Сохранен
 
 // Колбэк обработки лайка карточки
 const likeCard = (likeButton, likeCountElement, cardId) => {
-  const isLiked = likeButton.classList.contains("card__like-button_is-active");
+  // ТЗ: Используем функцию из модуля card.js для получения статуса лайка
+  const isLiked = getLikeStatus(likeButton);
+
   changeLikeCardStatus(cardId, isLiked)
     .then((updatedCardData) => {
       updateLikeStatus(likeButton, likeCountElement, updatedCardData.likes, userId);
     })
     .catch((err) => {
-      console.log(err);
+      return Promise.reject(err);
     });
 };
 
-// Колбэк удаления карточки
 const deleteCard = (cardElement, cardId) => {
   deleteCardFromServer(cardId)
     .then(() => {
-      cardElement.remove();
+      removeCardElement(cardElement);
     })
     .catch((err) => {
-      console.log(err);
+      return Promise.reject(err);
     });
 };
 
