@@ -1,4 +1,4 @@
-// Функция получения шаблона карточки
+// Функция получения шаблона
 const getTemplate = () => {
   return document
     .getElementById("card-template")
@@ -10,12 +10,10 @@ export const removeCardElement = (cardElement) => {
   cardElement.remove();
 };
 
-// Функция для обновления отображения лайков (класса и счётчика)
+// Функция для обновления отображения лайков
 export const updateLikeStatus = (likeButton, likeCountElement, likesArray, userId) => {
-  // Обновляем количество лайков на основе длины массива с сервера
   likeCountElement.textContent = likesArray ? likesArray.length : 0;
 
-  // Проверяем, есть ли наш ID в списке лайкнувших
   const isLiked = likesArray && likesArray.some((like) => like._id === userId);
   
   if (isLiked) {
@@ -45,10 +43,9 @@ export const createCardElement = (
   cardImage.alt = data.name;
   cardElement.querySelector(".card__title").textContent = data.name;
 
-  // Вызываем функцию для первичной отрисовки статуса лайков при загрузке
   updateLikeStatus(likeButton, likeCountElement, data.likes, userId);
 
-  // Логика корзины удаления
+  //корзина удаления
   if (data.owner && data.owner._id !== userId) {
     deleteButton.remove();
   } else if (onDeleteCard) {
@@ -56,7 +53,6 @@ export const createCardElement = (
   }
 
   if (onLikeIcon) {
-    // Передаем кнопку, элемент счетчика и ID карточки в колбэк
     likeButton.addEventListener("click", () => onLikeIcon(likeButton, likeCountElement, data._id));
   }
 

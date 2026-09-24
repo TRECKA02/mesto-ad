@@ -25,7 +25,7 @@ const validationConfig = {
   errorClass: 'popup__error_visible'
 };
 
-// Глобальная переменная для хранения ID текущего пользователя
+// Глобальная переменная для хранения ID 
 let userId = "";
 
 // DOM узлы общего интерфейса
@@ -57,16 +57,16 @@ const avatarFormModalWindow = document.querySelector(".popup_type_edit-avatar");
 const avatarForm = avatarFormModalWindow.querySelector(".popup__form");
 const avatarInput = avatarForm.querySelector(".popup__input");
 
-// DOM узлы для модального окна статистики
+//узлы для модального окна статистики
 const usersStatsModalWindow = document.querySelector(".popup_type_info");
 const usersStatsModalInfoList = usersStatsModalWindow.querySelector(".popup__info"); // Строка 58!
 const usersStatsModalUsersList = usersStatsModalWindow.querySelector(".popup__list");
 
-// Шаблоны для генерации статистики
+//генерация статистики
 const infoDefinitionTemplate = document.querySelector("#popup-info-definition-template").content;
 const infoUserPreviewTemplate = document.querySelector("#popup-info-user-preview-template").content;
 
-// Вспомогательная функция для форматирования даты в формат "ДД месяц ГГГГ"
+//форматирование даты 
 const formatDate = (date) =>
   date.toLocaleDateString("ru-RU", {
     year: "numeric",
@@ -74,7 +74,7 @@ const formatDate = (date) =>
     day: "numeric",
   });
 
-// Функция создания строки описания статистики из темплейта (<dl>)
+// Функция создания строки описания статистики
 const createInfoString = (term, description) => {
   const element = infoDefinitionTemplate.querySelector(".popup__info-item").cloneNode(true);
   element.querySelector(".popup__info-term").textContent = term;
@@ -82,18 +82,18 @@ const createInfoString = (term, description) => {
   return element;
 };
 
-// Функция создания бэджа пользователя из темплейта (<li>)
+// Функция создания бэджа пользователя 
 const createUserBadge = (userName) => {
   const element = infoUserPreviewTemplate.querySelector(".popup__list-item_type_badge").cloneNode(true);
   element.textContent = userName;
   return element;
 };
 
-// Функция-обработчик клика на логотип (расчёт статистики проекта)
+// Функция-обработчик клика на логотип
 const handleLogoClick = () => {
   getCardList()
     .then((cards) => {
-      // Очищаем списки от старых данных перед новым рендером
+      // очистка старых данных перед новым рендером
       usersStatsModalInfoList.innerHTML = "";
       usersStatsModalUsersList.innerHTML = "";
 
@@ -103,12 +103,12 @@ const handleLogoClick = () => {
         return;
       }
 
-      // Сортируем копию массива по дате создания для точного определения границ времени
+      //точное определение границ времени
       const sortedCards = [...cards].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       const earliestDate = new Date(sortedCards[0].createdAt);
       const latestDate = new Date(sortedCards[sortedCards.length - 1].createdAt);
 
-      // Группируем карточки по создателям для подсчёта уникальных юзеров и их максимумов
+      //карточки по создателям для подсчёта уникальных юзеров и их максимумов
       const userCardsCount = {};
       const userNames = {};
 
@@ -124,13 +124,13 @@ const handleLogoClick = () => {
       const totalUsers = uniqueUsersIds.length;
       const maxCardsFromOne = totalUsers > 0 ? Math.max(...Object.values(userCardsCount)) : 0;
 
-      // Добавляем строки общей статистики
+      //строка общей статистики
       usersStatsModalInfoList.append(createInfoString("Первая создана:", formatDate(earliestDate)));
       usersStatsModalInfoList.append(createInfoString("Последняя создана:", formatDate(latestDate)));
       usersStatsModalInfoList.append(createInfoString("Всего пользователей:", totalUsers));
       usersStatsModalInfoList.append(createInfoString("Максимум карточек от одного:", maxCardsFromOne));
 
-      // Рендерим список всех уникальных авторов
+      // Рендер списка всех уникальных авторов
       uniqueUsersIds.forEach((id) => {
         usersStatsModalUsersList.append(createUserBadge(userNames[id]));
       });
@@ -142,7 +142,6 @@ const handleLogoClick = () => {
     });
 };
 
-// Универсальная функция для управления текстом кнопок во время запросов (UX)
 const renderLoading = (isLoading, buttonElement, loadingText = "Сохранение...", defaultText = "Сохранить") => {
   if (isLoading) {
     buttonElement.textContent = loadingText;
@@ -151,9 +150,8 @@ const renderLoading = (isLoading, buttonElement, loadingText = "Сохранен
   }
 };
 
-// Колбэк обработки лайка карточки
+// обработка лайка карточки
 const likeCard = (likeButton, likeCountElement, cardId) => {
-  // ТЗ: Используем функцию из модуля card.js для получения статуса лайка
   const isLiked = getLikeStatus(likeButton);
 
   changeLikeCardStatus(cardId, isLiked)
@@ -175,7 +173,7 @@ const deleteCard = (cardElement, cardId) => {
     });
 };
 
-// Колбэк открытия превью картинки
+// открытие превью картинки
 const handlePreviewPicture = ({ name, link }) => {
   imageElement.src = link;
   imageElement.alt = name;
@@ -263,7 +261,7 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
 cardForm.addEventListener("submit", handleCardFormSubmit);
 avatarForm.addEventListener("submit", handleAvatarFromSubmit);
 
-// Слушатели открытия модальных окон с очисткой ошибок валидации
+// Слушатели открытия модальных окон
 openProfileFormButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
@@ -284,25 +282,25 @@ openCardFormButton.addEventListener("click", () => {
   // Слушатель на логотип для открытия статистики
 logoElement.addEventListener("click", handleLogoClick);
 
-// Настройка закрытия всех попапов (по оверлею и крестику)
+// Настройка закрытия всех попапов
 const allPopups = document.querySelectorAll(".popup");
 allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
   });
 
-// Запуск валидации всех форм проекта
+// Запуск валидации всех форм
 enableValidation(validationConfig);
 
-// Одновременная загрузка данных пользователя и списка карточек с сервера при старте
+// Одновременная загрузка данных пользователя и списка карточек 
 Promise.all([getCardList(), getUserInfo()])
 .then(([cards, userData]) => {
   profileTitle.textContent = userData.name;
   profileDescription.textContent = userData.about;
   const userAvatarUrl = userData.avatar ? userData.avatar : 'https://unsplash.com';
 profileAvatar.style.backgroundImage = `url(${userAvatarUrl})`;
-  // Сохраняем уникальный id текущего пользователя
+  // Сохранение уникального idпользователя
   userId = userData._id;
-  // Первичная отрисовка всех карточек на странице
+  // Первичная отрисовка
   cards.forEach((cardData) => {
     placesWrap.append(
       createCardElement(cardData, {

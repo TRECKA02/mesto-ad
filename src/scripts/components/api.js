@@ -1,25 +1,25 @@
 // Настройки для работы с API
 const config = {
-  baseUrl: "https://mesto.nomoreparties.co/v1/apf-cohort-203", // Замените на ваш идентификатор группы
+  baseUrl: "https://mesto.nomoreparties.co/v1/apf-cohort-203", 
   headers: {
-    authorization: "fbd94c6d-6e1f-492a-b1d7-25b87eca2cca", // Замените на ваш личный токен
+    authorization: "fbd94c6d-6e1f-492a-b1d7-25b87eca2cca", 
     "Content-Type": "application/json",
   },
 };
 
-/* Проверяем, успешно ли выполнен запрос, и отклоняем промис в случае ошибки. */
+
 const getResponseData = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };
 
-// Получить информацию о пользователе с сервера (GET)
+// Получить информацию о пользователе
 export const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
   }).then(getResponseData);
 };
 
-// Получить список карточек с сервера (GET)
+// Получить список карточек 
 export const getCardList = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
@@ -37,7 +37,7 @@ export const setUserInfo = ({ name, about }) => {
   }).then(getResponseData);
 };
 
-// Обновить аватар пользователя на сервере (PATCH)
+// Обновить аватар пользователя
 export const updateAvatar = (avatarLink) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
@@ -48,7 +48,7 @@ export const updateAvatar = (avatarLink) => {
   }).then(getResponseData);
 };
 
-// Добавить новую карточку на сервер (POST)
+// Добавить новую карточку
 export const addNewCard = ({ name, link }) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
@@ -60,7 +60,7 @@ export const addNewCard = ({ name, link }) => {
   }).then(getResponseData);
 };
 
-// Удалить карточку с сервера (DELETE)
+// Удалить карточку 
 export const deleteCardFromServer = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
@@ -68,7 +68,7 @@ export const deleteCardFromServer = (cardId) => {
   }).then(getResponseData);
 };
 
-// Постановка и снятие лайка (PUT / DELETE)
+// Постановка и снятие лайка
 export const changeLikeCardStatus = (cardId, isLiked) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: isLiked ? "DELETE" : "PUT",
